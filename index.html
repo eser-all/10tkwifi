@@ -1,364 +1,401 @@
 <!DOCTYPE html>
-
 <html lang="bn">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>স্মার্ট ওয়াইফাই পোর্টাল</title>
+    <!-- Google Font & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --primary-hover: #0b5ed7;
+            --bg-color: #f4f7fe;
+            --card-bg: #ffffff;
+            --text-color: #2b3674;
+            --border-radius: 16px;
+        }
 
-<meta charset="UTF-8">
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Hind Siliguri', sans-serif;
+        }
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center;
+        }
 
-<title>High-Speed WiFi Portal</title>
+        header {
+            background: linear-gradient(135deg, #0d6efd 0%, #0a4abf 100%);
+            color: #fff;
+            width: 100%;
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            box-shadow: 0 10px 20px rgba(13, 110, 253, 0.15);
+        }
 
-<!-- Tailwind CSS CDN -->
+        .header-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
 
-<script src="https://cdn.tailwindcss.com"></script>
+        header h1 {
+            font-size: 26px;
+            font-weight: 700;
+        }
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+        header p {
+            font-size: 15px;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
 
-<style>
+        main {
+            width: 100%;
+            max-width: 480px;
+            padding: 20px;
+            flex: 1;
+        }
 
-@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap');
+        .phone-input-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+            text-align: center;
+        }
 
-body { font-family: 'Hind Siliguri', sans-serif; }
+        .phone-input-card label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
 
-</style>
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
 
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            color: #6c757d;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px 12px 42px;
+            border: 2px solid #e0e5f2;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary-color);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .package-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .package-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 18px;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .package-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .badge {
+            position: absolute;
+            top: -10px;
+            right: 15px;
+            background: #ff4757;
+            color: #fff;
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .badge.best {
+            background: #2ed573;
+        }
+
+        .package-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .pack-tag {
+            font-size: 12px;
+            color: var(--primary-color);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .package-details h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 2px 0;
+        }
+
+        .package-details p {
+            font-size: 13px;
+            color: #2ed573;
+            font-weight: 600;
+        }
+
+        .price {
+            text-align: right;
+        }
+
+        .price-amount {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .price-currency {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .buy-btn {
+            width: 100%;
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .buy-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        .trust-badge {
+            margin-top: 25px;
+            text-align: center;
+            background: #eef4ff;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 13px;
+            color: #334155;
+        }
+
+        .payment-icons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 8px;
+            font-size: 20px;
+            color: #64748b;
+        }
+
+        footer {
+            margin-top: auto;
+            width: 100%;
+            background: #fff;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .support-info {
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+    </style>
 </head>
-
-<body class="bg-slate-900 text-slate-100 min-h-screen pb-12">
-
-
-
-<!-- Header Section -->
-
-<header class="bg-slate-800 border-b border-slate-700 py-6 px-4 text-center shadow-lg">
-
-<div class="max-w-md mx-auto">
-
-<div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-600/20 text-blue-400 mb-2">
-
-<i class="fa-solid fa-wifi text-2xl animate-pulse"></i>
-
-</div>
-
-<h1 class="text-2xl font-bold text-white tracking-wide">স্মার্ট ওয়াইফাই পোর্টাল</h1>
-
-<p class="text-slate-400 text-sm mt-1">প্যাকেজ নির্বাচন করুন এবং মুহূর্তেই কানেক্ট হন</p>
-
-</div>
-
-</header>
-
-
-
-<main class="max-w-md mx-auto px-4 mt-6">
-
-
-
-<!-- Mobile Number Input Card -->
-
-<div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 mb-6 shadow-xl">
-
-<label for="phone" class="block text-slate-300 font-semibold mb-2 text-sm">
-
-<i class="fa-solid fa-mobile-screen-button text-blue-400 mr-2"></i>আপনার মোবাইল নম্বর দিন
-
-</label>
-
-<input type="tel" id="phone" placeholder="017XXXXXXXX" maxLength="11"
-
-class="w-full bg-slate-900 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-lg tracking-wider transition">
-
-<p id="error-msg" class="text-red-400 text-xs mt-2 hidden">অনুগ্রহ করে একটি সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন</p>
-
-</div>
-
-
-
-<!-- Package Selection Header -->
-
-<h2 class="text-lg font-bold text-white mb-4 flex items-center">
-
-<i class="fa-solid fa-bolt text-yellow-400 mr-2"></i> সাশ্রয়ী ইন্টারনেট প্যাকেজসমূহ
-
-</h2>
-
-
-
-<!-- Package Grid -->
-
-<div class="space-y-4">
-
-
-
-<!-- 10 Tk Package (Popular Badge) -->
-
-<div onclick="selectPackage('10')" id="card-10"
-
-class="pkg-card relative bg-slate-800 border-2 border-slate-700 hover:border-blue-500 rounded-2xl p-5 cursor-pointer transition-all duration-200 shadow-md">
-
-<span class="absolute -top-3 right-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-[11px] font-bold px-3 py-0.5 rounded-full shadow">পপুলার প্যাক</span>
-
-<div class="flex justify-between items-center">
-
-<div>
-
-<span class="text-xs font-semibold text-blue-400 uppercase tracking-wider">Quick Pass</span>
-
-<h3 class="text-xl font-bold text-white mt-0.5">১ ঘণ্টা ইন্টারনেট</h3>
-
-<p class="text-xs text-slate-400 mt-1"><i class="fa-solid fa-gauge-high mr-1"></i> স্পিড: ৪ Mbps পর্যন্ত</p>
-
-</div>
-
-<div class="text-right">
-
-<span class="text-3xl font-extrabold text-blue-400">১০</span>
-
-<span class="text-sm text-slate-400 font-bold">৳</span>
-
-</div>
-
-</div>
-
-</div>
-
-
-
-<!-- 50 Tk Package -->
-
-<div onclick="selectPackage('50')" id="card-50"
-
-class="pkg-card bg-slate-800 border-2 border-slate-700 hover:border-blue-500 rounded-2xl p-5 cursor-pointer transition-all duration-200 shadow-md">
-
-<div class="flex justify-between items-center">
-
-<div>
-
-<span class="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Day Pass</span>
-
-<h3 class="text-xl font-bold text-white mt-0.5">১ দিন (২৪ ঘণ্টা)</h3>
-
-<p class="text-xs text-slate-400 mt-1"><i class="fa-solid fa-gauge-high mr-1"></i> স্পিড: ৫ Mbps পর্যন্ত</p>
-
-</div>
-
-<div class="text-right">
-
-<span class="text-3xl font-extrabold text-emerald-400">৫০</span>
-
-<span class="text-sm text-slate-400 font-bold">৳</span>
-
-</div>
-
-</div>
-
-</div>
-
-
-
-<!-- 100 Tk Package -->
-
-<div onclick="selectPackage('100')" id="card-100"
-
-class="pkg-card bg-slate-800 border-2 border-slate-700 hover:border-blue-500 rounded-2xl p-5 cursor-pointer transition-all duration-200 shadow-md">
-
-<div class="flex justify-between items-center">
-
-<div>
-
-<span class="text-xs font-semibold text-purple-400 uppercase tracking-wider">Weekly Pack</span>
-
-<h3 class="text-xl font-bold text-white mt-0.5">৭ দিন (১ সপ্তাহ)</h3>
-
-<p class="text-xs text-slate-400 mt-1"><i class="fa-solid fa-gauge-high mr-1"></i> স্পিড: ৬ Mbps পর্যন্ত</p>
-
-</div>
-
-<div class="text-right">
-
-<span class="text-3xl font-extrabold text-purple-400">১০০</span>
-
-<span class="text-sm text-slate-400 font-bold">৳</span>
-
-</div>
-
-</div>
-
-</div>
-
-
-
-<!-- 200 Tk Package (Best Value Badge) -->
-
-<div onclick="selectPackage('200')" id="card-200"
-
-class="pkg-card relative bg-slate-800 border-2 border-slate-700 hover:border-blue-500 rounded-2xl p-5 cursor-pointer transition-all duration-200 shadow-md">
-
-<span class="absolute -top-3 right-4 bg-gradient-to-r from-amber-500 to-orange-600 text-white text-[11px] font-bold px-3 py-0.5 rounded-full shadow">বেস্ট ভ্যালু</span>
-
-<div class="flex justify-between items-center">
-
-<div>
-
-<span class="text-xs font-semibold text-amber-400 uppercase tracking-wider">Monthly Pass</span>
-
-<h3 class="text-xl font-bold text-white mt-0.5">৩০ দিন (১ মাস)</h3>
-
-<p class="text-xs text-slate-400 mt-1"><i class="fa-solid fa-gauge-high mr-1"></i> স্পিড: ১০ Mbps হাই-স্পিড</p>
-
-</div>
-
-<div class="text-right">
-
-<span class="text-3xl font-extrabold text-amber-400">২০০</span>
-
-<span class="text-sm text-slate-400 font-bold">৳</span>
-
-</div>
-
-</div>
-
-</div>
-
-
-
-</div>
-
-
-
-<!-- Buy Action Button -->
-
-<div class="mt-8">
-
-<button onclick="processPayment()" id="pay-btn"
-
-class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-4 rounded-xl shadow-lg transition duration-200 text-lg flex items-center justify-center">
-
-<span>পেমেন্ট করুন (amarPay)</span>
-
-<i class="fa-solid fa-arrow-right ml-2"></i>
-
-</button>
-
-</div>
-
-
-
-<!-- Footer Info -->
-
-<p class="text-center text-xs text-slate-500 mt-6">
-
-<i class="fa-solid fa-shield-halved mr-1"></i> ১০০% নিরাপদ পেমেন্ট সার্ভিস | amarPay
-
-</p>
-
-
-
-</main>
-
-
-
-<script>
-
-let selectedAmount = '10'; // ডিফল্ট নির্বাচিত প্যাকেজ ১০ টাকা
-
-
-
-// URL Query Parameters (Router ID & MAC)
-
-const urlParams = new URLSearchParams(window.location.search);
-
-const routerId = urlParams.get('router') || 'router_001';
-
-const userMac = urlParams.get('mac') || '';
-
-
-
-// ডিফল্ট ১০ টাকার কার্ড সিলেক্টেড স্টাইল দেওয়া
-
-document.getElementById('card-10').classList.add('border-blue-500', 'bg-slate-800/80', 'ring-2', 'ring-blue-500/50');
-
-
-
-function selectPackage(amount) {
-
-selectedAmount = amount;
-
-
-
-// সব কার্ড থেকে একটিভ স্টাইল রিমুভ করা
-
-document.querySelectorAll('.pkg-card').forEach(card => {
-
-card.classList.remove('border-blue-500', 'bg-slate-800/80', 'ring-2', 'ring-blue-500/50');
-
-card.classList.add('border-slate-700');
-
-});
-
-
-
-// সিলেক্টেড কার্ডে হাইলাইট স্টাইল যোগ করা
-
-const selectedCard = document.getElementById(`card-${amount}`);
-
-selectedCard.classList.remove('border-slate-700');
-
-selectedCard.classList.add('border-blue-500', 'bg-slate-800/80', 'ring-2', 'ring-blue-500/50');
-
-}
-
-
-
-function processPayment() {
-
-const phoneInput = document.getElementById('phone');
-
-const errorMsg = document.getElementById('error-msg');
-
-const phone = phoneInput.value.trim();
-
-
-
-// সহজ মোবাইল নম্বর ভ্যালিডেশন (১১ ডিজিট)
-
-if (!phone || phone.length !== 11 || !phone.startsWith('01')) {
-
-errorMsg.classList.remove('hidden');
-
-phoneInput.focus();
-
-return;
-
-} else {
-
-errorMsg.classList.add('hidden');
-
-}
-
-
-
-// Firebase Cloud Function Endpoint (আপনার প্রজেক্ট আইডি বসান)
-
-const firebaseProjectId = "YOUR_PROJECT_ID";
-
-const paymentUrl = `https://us-central1-${firebaseProjectId}.cloudfunctions.net/createPayment?amount=${selectedAmount}&phone=${phone}&router=${routerId}&mac=${userMac}`;
-
-
-
-// amarPay পেমেন্ট পেজে রিডাইরেক্ট করা
-
-window.location.href = paymentUrl;
-
-}
-
-</script>
-
-</body>
-
-</html>
-
+<body>
+
+    <header>
+        <div class="header-icon">
+            <i class="fa-solid fa-wifi"></i>
+        </div>
+        <h1>স্মার্ট ওয়াইফাই পোর্টাল</h1>
+        <p>প্যাকেজ নির্বাচন করুন এবং মুহূর্তেই কানেক্ট হন</p>
+    </header>
+
+    <main>
+        <!-- মোবাইল নম্বর ইনপুট সেকশন -->
+        <div class="phone-input-card">
+            <label for="phone">অনুগ্রহ করে একটি সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন</label>
+            <div class="input-group">
+                <i class="fa-solid fa-phone"></i>
+                <input type="tel" id="phone" placeholder="01XXXXXXXXX" maxlength="11" required>
+            </div>
+        </div>
+
+        <h2 class="section-title">
+            <i class="fa-solid fa-bolt" style="color: #ffb703;"></i> সাশ্রয়ী ইন্টারনেট প্যাকেজসমূহ
+        </h2>
+
+        <!-- প্যাকেজ লিস্ট -->
+        <div class="package-list">
+            
+            <!-- প্যাকেজ ১ -->
+            <div class="package-card">
+                <span class="badge">পপুলার প্যাক</span>
+                <div class="package-details">
+                    <div>
+                        <span class="pack-tag">Quick Pass</span>
+                        <h3>১ ঘণ্টা ইন্টারনেট</h3>
+                        <p><i class="fa-solid fa-infinity"></i> স্পিড: Unlimited</p>
+                    </div>
+                    <div class="price">
+                        <span class="price-amount">১০</span>
+                        <span class="price-currency">৳</span>
+                    </div>
+                </div>
+                <button class="buy-btn" onclick="processPayment('১০', '১ ঘণ্টা')">
+                    <i class="fa-solid fa-cart-shopping"></i> কানেক্ট করুন
+                </button>
+            </div>
+
+            <!-- প্যাকেজ ২ -->
+            <div class="package-card">
+                <div class="package-details">
+                    <div>
+                        <span class="pack-tag">Day Pass</span>
+                        <h3>১ দিন (২৪ ঘণ্টা)</h3>
+                        <p><i class="fa-solid fa-infinity"></i> স্পিড: Unlimited</p>
+                    </div>
+                    <div class="price">
+                        <span class="price-amount">৫০</span>
+                        <span class="price-currency">৳</span>
+                    </div>
+                </div>
+                <button class="buy-btn" onclick="processPayment('৫০', '১ দিন')">
+                    <i class="fa-solid fa-cart-shopping"></i> কানেক্ট করুন
+                </button>
+            </div>
+
+            <!-- প্যাকেজ ৩ -->
+            <div class="package-card">
+                <div class="package-details">
+                    <div>
+                        <span class="pack-tag">Weekly Pack</span>
+                        <h3>৭ দিন (১ সপ্তাহ)</h3>
+                        <p><i class="fa-solid fa-infinity"></i> স্পিড: Unlimited</p>
+                    </div>
+                    <div class="price">
+                        <span class="price-amount">১০০</span>
+                        <span class="price-currency">৳</span>
+                    </div>
+                </div>
+                <button class="buy-btn" onclick="processPayment('১০০', '৭ দিন')">
+                    <i class="fa-solid fa-cart-shopping"></i> কানেক্ট করুন
+                </button>
+            </div>
+
+            <!-- প্যাকেজ ৪ -->
+            <div class="package-card">
+                <span class="badge best">বেস্ট ভ্যালু</span>
+                <div class="package-details">
+                    <div>
+                        <span class="pack-tag">Monthly Pass</span>
+                        <h3>৩০ দিন (১ মাস)</h3>
+                        <p><i class="fa-solid fa-infinity"></i> স্পিড: Unlimited</p>
+                    </div>
+                    <div class="price">
+                        <span class="price-amount">২০০</span>
+                        <span class="price-currency">৳</span>
+                    </div>
+                </div>
+                <button class="buy-btn" onclick="processPayment('২০০', '৩০ দিন')">
+                    <i class="fa-solid fa-cart-shopping"></i> কানেক্ট করুন
+                </button>
+            </div>
+
+        </div>
+
+        <!-- ট্রাস্ট ও পেমেন্ট সেকশন -->
+        <div class="trust-badge">
+            <p><i class="fa-solid fa-shield-halved" style="color: #2ed573;"></i> ১০০% নিরাপদ পেমেন্ট সার্ভিস | amarPay</p>
+            <div class="payment-icons">
+                <i class="fa-solid fa-credit-card" title="Cards"></i>
+                <i class="fa-solid fa-mobile-screen-button" title="Mobile Banking"></i>
+                <i class="fa-solid fa-building-columns" title="Net Banking"></i>
+            </div>
+        </div>
+    </main>
+
+    <!-- ফুটার ও হেল্পলাইন -->
+    <footer>
+        <div class="support-info">
+            <i class="fa-solid fa-headset"></i> হেল্পলাইন: <a href="tel:+8801700000000">০১৭০০-০০০০০</a> (সকাল ৯টা - রাত ১০টা)
+        </div>
+        <p>© 2026 স্মার্ট ওয়াইফাই পোর্টাল | সর্বস্বত্ব সংরক্ষিত</p>
+    </footer>
+
+    <!-- ডায়নামিক পেমেন্ট ভ্যালিডেশন স্ক্রিপ্ট -->
+    <script>
+        function processPayment(amount, duration) {
+            const phone = document.getElementById('phone').value.trim();
+            
+            if (phone.length !== 11 || !phone.startsWith("01")) {
+                alert("অনুগ্রহ করে একটি সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন (যেমন: 01XXXXXXXXX)");
+                document.getElementById('phone').focus();
+                return;
+            }
+
+            // পেমেন্ট গেটওয়েতে পাঠানোর স্থান
+            alert(phone + " নম্বরের জন্য " + amount + " টাকার (" + duration + " - Unlimited Speed) প্যাকেজ নির্বাচন করা হয়েছে। পেমেন্ট গেটওয়েতে রিডাইরেক্ট করা হচ্ছে...");
+        }
+    </script>
 </body>
 </html>
