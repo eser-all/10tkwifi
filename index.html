@@ -15,7 +15,6 @@
             --bg-color: #f4f7fe;
             --card-bg: #ffffff;
             --text-color: #2b3674;
-            --text-muted: #a3edd9;
             --border-radius: 16px;
         }
 
@@ -179,7 +178,8 @@
 
         .package-details p {
             font-size: 13px;
-            color: #6c757d;
+            color: #2ed573;
+            font-weight: 600;
         }
 
         .price {
@@ -294,7 +294,7 @@
                     <div>
                         <span class="pack-tag">Quick Pass</span>
                         <h3>১ ঘণ্টা ইন্টারনেট</h3>
-                        <p><i class="fa-solid fa-gauge-high"></i> স্পিড: ৪ Mbps পর্যন্ত</p>
+                        <p><i class="fa-solid fa-infinity"></i> স্পিড: Unlimited</p>
                     </div>
                     <div class="price">
                         <span class="price-amount">১০</span>
@@ -312,7 +312,7 @@
                     <div>
                         <span class="pack-tag">Day Pass</span>
                         <h3>১ দিন (২৪ ঘণ্টা)</h3>
-                        <p><i class="fa-solid fa-gauge-high"></i> স্পিড: ৫ Mbps পর্যন্ত</p>
+                        <p><i class="fa-solid fa-infinity"></i> স্পিড: Unlimited</p>
                     </div>
                     <div class="price">
                         <span class="price-amount">৫০</span>
@@ -330,7 +330,7 @@
                     <div>
                         <span class="pack-tag">Weekly Pack</span>
                         <h3>৭ দিন (১ সপ্তাহ)</h3>
-                        <p><i class="fa-solid fa-gauge-high"></i> স্পিড: ৬ Mbps পর্যন্ত</p>
+                        <p><i class="fa-solid fa-infinity"></i> স্পিড: Unlimited</p>
                     </div>
                     <div class="price">
                         <span class="price-amount">১০০</span>
@@ -349,7 +349,7 @@
                     <div>
                         <span class="pack-tag">Monthly Pass</span>
                         <h3>৩০ দিন (১ মাস)</h3>
-                        <p><i class="fa-solid fa-gauge-high"></i> স্পিড: ১০ Mbps হাই-স্পিড</p>
+                        <p><i class="fa-solid fa-infinity"></i> স্পিড: Unlimited</p>
                     </div>
                     <div class="price">
                         <span class="price-amount">২০০</span>
@@ -382,7 +382,7 @@
         <p>© 2026 স্মার্ট ওয়াইফাই পোর্টাল | সর্বস্বত্ব সংরক্ষিত</p>
     </footer>
 
-    <!-- সাধারণ স্ক্রিপ্ট (নম্বর ভ্যালিডেশন) -->
+    <!-- ডায়নামিক পেমেন্ট ভ্যালিডেশন স্ক্রিপ্ট -->
     <script>
         function processPayment(amount, duration) {
             const phone = document.getElementById('phone').value.trim();
@@ -393,8 +393,8 @@
                 return;
             }
 
-            // এখানে আপনার amarPay বা ব্যাকএন্ড লিংক কানেক্ট করতে পারবেন
-            alert(phone + " নম্বরের জন্য " + amount + " টাকার (" + duration + ") প্যাকেজ নির্বাচন করা হয়েছে। পেমেন্ট গেটওয়েতে রিডাইরেক্ট করা হচ্ছে...");
+            // পেমেন্ট গেটওয়েতে পাঠানোর স্থান
+            alert(phone + " নম্বরের জন্য " + amount + " টাকার (" + duration + " - Unlimited Speed) প্যাকেজ নির্বাচন করা হয়েছে। পেমেন্ট গেটওয়েতে রিডাইরেক্ট করা হচ্ছে...");
         }
     </script>
 </body>
