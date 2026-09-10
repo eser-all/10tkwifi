@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WiFi Zone - Dashboard & Cyber Security Gateway</title>
+  <title>Smart WiFi Zone</title>
   <style>
     * {
       box-sizing: border-box;
@@ -138,26 +138,13 @@
       border-top: 1px dashed #e2e8f0;
       padding-top: 12px;
     }
-    .error-msg {
-      color: #e53e3e;
-      background: #fff5f5;
-      border: 1px solid #fed7d7;
-      padding: 8px;
-      border-radius: 6px;
-      font-size: 12px;
-      margin-bottom: 15px;
-    }
   </style>
 </head>
 <body>
 
   <div class="card">
-    <h2 class="header-title">WiFi Zone Dashboard</h2>
+    <h2 class="header-title">Smart WiFi Zone</h2>
     <p class="subtitle">লগইন করতে পেমেন্ট মেথড বা পিন কোড ব্যবহার করুন</p>
-
-    $(if error)
-      <div class="error-msg">$(error)</div>
-    $(endif)
 
     <!-- Tab Buttons -->
     <div class="tab-container">
@@ -168,7 +155,6 @@
     <!-- TAB 1: 10-DIGIT VOUCHER PIN LOGIN -->
     <div id="voucher-tab" class="tab-content active">
       <form name="login" id="loginForm" action="$(link-login-only)" method="post" onsubmit="return handleVoucherLogin(event)">
-        <!-- MikroTik System Hidden Fields -->
         <input type="hidden" name="dst" value="$(link-orig)" />
         <input type="hidden" name="popup" value="true" />
         <input type="hidden" id="username" name="username" />
@@ -188,7 +174,7 @@
       </form>
     </div>
 
-    <!-- TAB 2: ONLINE PAYMENT GATEWAY (API Integration) -->
+    <!-- TAB 2: ONLINE PAYMENT GATEWAY -->
     <div id="online-tab" class="tab-content">
       <form action="https://us-central1-YOUR_PROJECT_ID.cloudfunctions.net/initiatePayment" method="POST">
         <input type="hidden" name="mac" value="$(mac)">
@@ -215,15 +201,13 @@
     </div>
 
     <div class="footer">
-      Device MAC: $(mac) | Cyber Security Compliant
+      Smart WiFi Zone | MAC: $(mac) | Cyber Security Compliant
     </div>
   </div>
 
   <script>
-    // Firebase Cloud Function Endpoint URL
     const FIREBASE_USER_SAVE_URL = "https://us-central1-YOUR_PROJECT_ID.cloudfunctions.net/saveUserData";
 
-    // Tab Switching Functionality
     function switchTab(tabName) {
       document.getElementById('voucher-tab').classList.remove('active');
       document.getElementById('online-tab').classList.remove('active');
@@ -240,9 +224,8 @@
       }
     }
 
-    // Voucher Login Handler with Firebase Data Sync
     async function handleVoucherLogin(event) {
-      event.preventDefault(); // Stop default form submit
+      event.preventDefault();
 
       const phone = document.getElementById('user_phone').value.trim();
       const pin = document.getElementById('pin_code').value.trim();
@@ -258,7 +241,6 @@
       submitBtn.disabled = true;
 
       try {
-        // Step 1: Sync Phone + MAC with Firebase for Cyber Security Audit
         await fetch(FIREBASE_USER_SAVE_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -268,11 +250,8 @@
         console.log("Firebase sync warning:", error);
       }
 
-      // Step 2: Assign PIN to Username and Password fields
       document.getElementById('username').value = pin;
       document.getElementById('password').value = pin;
-
-      // Step 3: Trigger MikroTik Native Login Form Submission
       document.getElementById('loginForm').submit();
     }
   </script>
