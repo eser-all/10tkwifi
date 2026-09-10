@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WiFi Zone - Login & Cyber Security Logging</title>
+  <title>WiFi Zone - Login & bKash Payment</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
     body { background: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 15px; }
@@ -13,10 +13,15 @@
     
     .form-group { text-align: left; margin-bottom: 15px; }
     label { display: block; font-weight: 600; color: #4a5568; font-size: 13px; margin-bottom: 6px; }
-    input[type="text"], input[type="tel"] { width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 6px; font-size: 15px; outline: none; }
+    input[type="text"], input[type="tel"], select { width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 6px; font-size: 15px; outline: none; }
     .pin-input { text-align: center; font-size: 18px !important; letter-spacing: 2px; font-weight: bold; }
     
-    .btn-green { width: 100%; background: #28a745; color: #fff; border: none; padding: 12px; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; }
+    .btn-green { width: 100%; background: #28a745; color: #fff; border: none; padding: 12px; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
+    .btn-bkash { width: 100%; background: #e2136e; color: #fff; border: none; padding: 12px; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; }
+    .divider { margin: 15px 0; font-size: 12px; color: #a0aec0; position: relative; }
+    .divider::before, .divider::after { content: ""; position: absolute; top: 50%; width: 40%; height: 1px; background: #e2e8f0; }
+    .divider::before { left: 0; } .divider::after { right: 0; }
+    
     .footer { margin-top: 15px; font-size: 11px; color: #a0aec0; }
     .error-msg { color: #e53e3e; font-size: 12px; margin-bottom: 10px; }
   </style>
@@ -25,33 +30,47 @@
 
   <div class="card">
     <h2 class="header-title">WiFi Zone Login</h2>
-    <p class="subtitle">সাইবার নিরাপত্তার জন্য মোবাইল নম্বর দেওয়া বাধ্যতামূলক</p>
+    <p class="subtitle">লগইন করুন অথবা বিকাশ দিয়ে রিচার্জ করুন</p>
 
     $(if error)
       <div class="error-msg">$(error)</div>
     $(endif)
 
+    <!-- ১. পিন দিয়ে লগইন করার ফর্ম -->
     <form name="login" id="loginForm" action="$(link-login-only)" method="post" onsubmit="return handleUserLogin(event)">
-      <!-- MikroTik Hidden Variables -->
       <input type="hidden" name="dst" value="$(link-orig)" />
       <input type="hidden" name="popup" value="true" />
       <input type="hidden" id="username" name="username" />
       <input type="hidden" id="password" name="password" />
 
-      <!-- User Mobile Number Input -->
       <div class="form-group">
         <label for="user_phone">আপনার মোবাইল নম্বর:</label>
         <input type="tel" id="user_phone" placeholder="017xxxxxxxx" required pattern="[0-9]{11}">
       </div>
 
-      <!-- Voucher Pin Input -->
       <div class="form-group">
         <label for="pin_code">স্ক্র্যাচ কার্ডের পিন (PIN):</label>
-        <input type="text" id="pin_code" class="pin-input" placeholder="e.g. 849204" required autocomplete="off">
+        <input type="text" id="pin_code" class="pin-input" placeholder="e.g. 849204" autocomplete="off">
       </div>
 
       <button type="submit" class="btn-green" id="submitBtn">ইন্টারনেট চালু করুন</button>
     </form>
+
+    <div class="divider">অথবা</div>
+
+    <!-- ২. বিকাশ দিয়ে প্যাকেজ কেনার সেকশন -->
+    <div class="form-group">
+      <label for="package_select">প্যাকেজ নির্বাচন করুন:</label>
+      <select id="package_select">
+        <option value="10">১ ঘণ্টা - ১০ টাকা</option>
+        <option value="30">১ দিন - ৩০ টাকা</option>
+        <option value="100">৭ দিন - ১০০ টাকা</option>
+      </select>
+    </div>
+
+    <button type="button" class="btn-bkash" id="bkashBtn" onclick="payWithBkash()">
+      <span>bKash দিয়ে কিনুন</span>
+    </button>
 
     <div class="footer">
       Device MAC: $(mac) | Protected Network
@@ -59,12 +78,12 @@
   </div>
 
   <script>
-    // Firebase Cloud Function Endpoint (এখানে আপনার ফায়ারবেস লিংকটি বসাবেন)
     const FIREBASE_USER_SAVE_URL = "https://us-central1-YOUR_PROJECT_ID.cloudfunctions.net/saveUserData";
+    const BKASH_CREATE_PAYMENT_URL = "https://us-central1-YOUR_PROJECT_ID.cloudfunctions.net/createBkashPayment";
 
+    // পিন দিয়ে লগইন
     async function handleUserLogin(event) {
-      event.preventDefault(); // ফরম ডিফল্ট সাবমিট থামানো
-
+      event.preventDefault();
       const phone = document.getElementById('user_phone').value.trim();
       const pin = document.getElementById('pin_code').value.trim();
       const mac = "$(mac)";
@@ -79,7 +98,6 @@
       submitBtn.disabled = true;
 
       try {
-        // ১. ফায়ারবেসে Phone Number + MAC সেভ করা
         await fetch(FIREBASE_USER_SAVE_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -89,12 +107,53 @@
         console.log("Firebase sync warning:", error);
       }
 
-      // ২. MikroTik Login Input সেট করা
       document.getElementById('username').value = pin;
       document.getElementById('password').value = pin;
-
-      // ৩. MikroTik-এ ফরম সাবমিট করা
       document.getElementById('loginForm').submit();
+    }
+
+    // বিকাশ পেমেন্ট ইন্টিগ্রেশন
+    async function payWithBkash() {
+      const phone = document.getElementById('user_phone').value.trim();
+      const amount = document.getElementById('package_select').value;
+      const mac = "$(mac)";
+      const bkashBtn = document.getElementById('bkashBtn');
+
+      if (!phone || phone.length !== 11) {
+        alert("বিকাশ দিয়ে কেনার আগে ১১ ডিজিটের মোবাইল নম্বরটি সঠিক ভাবে দিন!");
+        return;
+      }
+
+      bkashBtn.innerText = "প্রসেস করা হচ্ছে...";
+      bkashBtn.disabled = true;
+
+      try {
+        const response = await fetch(BKASH_CREATE_PAYMENT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: amount,
+            phone: phone,
+            mac: mac
+          })
+        });
+
+        const data = await response.json();
+
+        if (data && data.bkashURL) {
+          // বিকাশ পেমেন্ট পেজে রিডাইরেক্ট
+          window.location.href = data.bkashURL;
+        } else {
+          alert("পেমেন্ট শুরু করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+          bkashBtn.innerText = "bKash দিয়ে কিনুন";
+          bkashBtn.disabled = false;
+        }
+      } catch (err) {
+        console.error("bKash Error:", err);
+        alert("সার্ভারে সংযোগ করা যাচ্ছে না।");
+        bkashBtn.innerText = "bKash দিয়ে কিনুন";
+        bkashBtn.disabled = false;
+      }
     }
   </script>
 
