@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smart WiFi Zone</title>
+  <!-- HTML5 QR Code Scanner Library -->
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -94,11 +96,60 @@
     input[type="text"]:focus, input[type="tel"]:focus, select:focus {
       border-color: #28a745;
     }
+    .pin-input-group {
+      position: relative;
+    }
     .pin-input {
       text-align: center;
       font-size: 18px !important;
       letter-spacing: 3px;
       font-weight: bold;
+      padding-right: 45px !important;
+    }
+    .scan-btn-icon {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #3182ce;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 10px;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .scan-btn-icon:hover {
+      background: #2b6cb0;
+    }
+    /* QR Scanner Modal Box */
+    #qr-reader-wrapper {
+      display: none;
+      background: #f8fafc;
+      border: 2px dashed #cbd5e0;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 15px;
+      position: relative;
+    }
+    #reader {
+      width: 100%;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .close-scanner-btn {
+      background: #e53e3e;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 8px;
     }
     /* Buttons */
     .btn-green {
@@ -161,13 +212,22 @@
         <input type="hidden" id="password" name="password" />
 
         <div class="form-group">
-          <label for="user_phone">মোবাইল নম্বর (সাইবার সিকিউরিটি):</label>
+          <label for="user_phone">মোবাইল নম্বর:</label>
           <input type="tel" id="user_phone" placeholder="017xxxxxxxx" maxlength="11" pattern="[0-9]{11}" required autocomplete="off">
         </div>
 
         <div class="form-group">
           <label for="pin_code">১০ ডিজিটের পিন (PIN) কোড:</label>
-          <input type="text" id="pin_code" class="pin-input" placeholder="9847201834" maxlength="10" pattern="[0-9]{10}" required autocomplete="off">
+          <div class="pin-input-group">
+            <input type="text" id="pin_code" class="pin-input" placeholder="9847201834" maxlength="10" pattern="[0-9]{10}" required autocomplete="off">
+            <button type="button" class="scan-btn-icon" onclick="startScanner()" title="QR Scan">📷 স্ক্যান</button>
+          </div>
+        </div>
+
+        <!-- Camera Scanner Area -->
+        <div id="qr-reader-wrapper">
+          <div id="reader"></div>
+          <button type="button" class="close-scanner-btn" onclick="stopScanner()">ক্যামেরা বন্ধ করুন</button>
         </div>
 
         <button type="submit" class="btn-green" id="submitBtn">ইন্টারনেট চালু করুন</button>
@@ -181,7 +241,7 @@
         <input type="hidden" name="ip" value="$(ip)">
 
         <div class="form-group">
-          <label for="online_phone">আপনার মোবাইল নম্বর:</label>
+          <label for="online_phone">মোবাইল নম্বর:</label>
           <input type="tel" name="phone" id="online_phone" placeholder="017xxxxxxxx" maxlength="11" pattern="[0-9]{11}" required autocomplete="off">
         </div>
 
@@ -191,7 +251,7 @@
             <option value="pkg_10tk_1hr">১০ টাকা — ১ ঘণ্টা</option>
             <option value="pkg_20tk_3hr">২০ টাকা — ৩ ঘণ্টা</option>
             <option value="pkg_50tk_3day">৫০ টাকা — ৩ দিন</option>
-            <option value="pkg_100tk_1wk">১০০ টাকা — ১ সপ্তাহ</option>
+            <option value="pkg_100tk_1wk">১ ১০০ টাকা — ১ সপ্তাহ</option>
             <option value="pkg_200tk_1m" selected>২০০ টাকা — ১ মাস</option>
           </select>
         </div>
@@ -201,12 +261,13 @@
     </div>
 
     <div class="footer">
-      Smart WiFi Zone | MAC: $(mac) | Cyber Security Compliant
+      Smart WiFi Zone | MAC: $(mac)
     </div>
   </div>
 
   <script>
     const FIREBASE_USER_SAVE_URL = "https://us-central1-YOUR_PROJECT_ID.cloudfunctions.net/saveUserData";
+    let html5QrcodeScanner = null;
 
     function switchTab(tabName) {
       document.getElementById('voucher-tab').classList.remove('active');
@@ -221,6 +282,46 @@
       } else {
         document.getElementById('online-tab').classList.add('active');
         buttons[1].classList.add('active');
+        stopScanner();
+      }
+    }
+
+    /* Camera Scanner Functions */
+    function startScanner() {
+      document.getElementById('qr-reader-wrapper').style.display = 'block';
+
+      if (!html5QrcodeScanner) {
+        html5QrcodeScanner = new Html5QrcodeScanner("reader", { 
+          fps: 10, 
+          qrbox: { width: 220, height: 220 },
+          aspectRatio: 1.0
+        });
+
+        html5QrcodeScanner.render((decodedText) => {
+          // Extract numbers only if QR contains text or full URL
+          const extractedPin = decodedText.replace(/\D/g, '').slice(0, 10);
+          if (extractedPin.length === 10) {
+            document.getElementById('pin_code').value = extractedPin;
+            stopScanner();
+          } else {
+            alert("QR কোডে ১০ ডিজিটের পিন পাওয়া যায়নি!");
+          }
+        }, (errorMessage) => {
+          // Scanning in progress...
+        });
+      }
+    }
+
+    function stopScanner() {
+      if (html5QrcodeScanner) {
+        html5QrcodeScanner.clear().then(() => {
+          html5QrcodeScanner = null;
+          document.getElementById('qr-reader-wrapper').style.display = 'none';
+        }).catch(() => {
+          document.getElementById('qr-reader-wrapper').style.display = 'none';
+        });
+      } else {
+        document.getElementById('qr-reader-wrapper').style.display = 'none';
       }
     }
 
