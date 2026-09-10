@@ -14,10 +14,10 @@
       --success-hover: #15803d;
       --bkash-color: #e2136e;
       --bkash-hover: #c20f5d;
-      --bg-color: #f1f5f9;
+      --bg-color: #f8fafc;
       --card-bg: #ffffff;
       --text-main: #0f172a;
-      --text-muted: #64748b;
+      --text-muted: #475569;
       --border-color: #cbd5e1;
     }
 
@@ -27,7 +27,7 @@
         --bg-color: #0f172a;
         --card-bg: #1e293b;
         --text-main: #f8fafc;
-        --text-muted: #94a3b8;
+        --text-muted: #cbd5e1;
         --border-color: #334155;
       }
     }
@@ -46,37 +46,38 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      padding: 12px;
+      padding: 12px 10px;
     }
 
+    /* Card without top border / frame accent */
     .card {
       background: var(--card-bg);
-      border-radius: 16px;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      border-radius: 20px;
+      border: none;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
       width: 100%;
-      max-width: 380px;
-      padding: 20px 18px;
+      max-width: 390px;
+      padding: 24px 20px;
       text-align: center;
-      position: relative;
     }
 
     /* Live Network Status Indicator */
     .status-badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      background: rgba(22, 163, 74, 0.1);
+      gap: 8px;
+      background: rgba(22, 163, 74, 0.12);
       color: var(--success-color);
-      padding: 4px 10px;
+      padding: 6px 14px;
       border-radius: 20px;
-      font-size: 11px;
-      font-weight: 600;
-      margin-bottom: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 14px;
     }
 
     .status-dot {
-      width: 7px;
-      height: 7px;
+      width: 9px;
+      height: 9px;
       background-color: var(--success-color);
       border-radius: 50%;
       box-shadow: 0 0 8px var(--success-color);
@@ -89,67 +90,49 @@
       100% { opacity: 1; }
     }
 
-    /* Banner Slider */
-    .slider-container {
-      width: 100%;
-      height: 110px;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-bottom: 12px;
-      position: relative;
-    }
-
-    .slide {
-      width: 100%;
-      height: 100%;
-      display: none;
-      object-fit: cover;
-    }
-
-    .slide.active {
-      display: block;
-    }
-
+    /* Mobile First Large Typography */
     .header-title {
       color: var(--text-main);
-      font-size: 19px;
-      font-weight: 700;
-      margin-bottom: 2px;
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
     }
 
     .subtitle {
       color: var(--text-muted);
-      font-size: 12px;
-      margin-bottom: 16px;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.4;
+      margin-bottom: 20px;
     }
 
-    /* Tab Navigation */
+    /* Tab Navigation - Borderless Design */
     .tab-container {
       display: flex;
       background: rgba(0, 0, 0, 0.05);
-      border: none;
-      border-radius: 10px;
-      padding: 3px;
-      margin-bottom: 16px;
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 20px;
     }
 
     .tab-btn {
       flex: 1;
-      padding: 10px 6px;
+      padding: 12px 8px;
       border: none;
       background: transparent;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--text-muted);
       cursor: pointer;
-      border-radius: 8px;
-      font-size: 13px;
+      border-radius: 10px;
+      font-size: 15px;
       transition: all 0.2s ease;
     }
 
     .tab-btn.active {
       background: var(--card-bg);
       color: var(--primary-color);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     }
 
     .tab-content {
@@ -163,15 +146,15 @@
     /* Form Elements & Inputs */
     .form-group {
       text-align: left;
-      margin-bottom: 14px;
+      margin-bottom: 18px;
     }
 
     label {
       display: block;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--text-main);
-      font-size: 12px;
-      margin-bottom: 5px;
+      font-size: 14px;
+      margin-bottom: 8px;
     }
 
     .input-wrapper {
@@ -182,15 +165,16 @@
     input[type="tel"], 
     input[type="password"] {
       width: 100%;
-      height: 44px;
-      padding: 0 38px 0 12px;
+      height: 52px;
+      padding: 0 42px 0 14px;
       border: 1.5px solid var(--border-color);
-      border-radius: 8px;
-      font-size: 14px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
       outline: none;
       background: var(--card-bg);
       color: var(--text-main);
-      transition: border-color 0.2s ease;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
       -webkit-appearance: none;
     }
 
@@ -198,17 +182,18 @@
     input[type="tel"]:focus,
     input[type="password"]:focus {
       border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
     }
 
     .clear-btn {
       position: absolute;
-      right: 10px;
+      right: 12px;
       top: 50%;
       transform: translateY(-50%);
       background: none;
       border: none;
       color: var(--text-muted);
-      font-size: 14px;
+      font-size: 16px;
       cursor: pointer;
       display: none;
     }
@@ -221,60 +206,65 @@
 
     .pin-input {
       text-align: center;
-      font-size: 16px !important;
+      font-size: 18px !important;
       letter-spacing: 2px;
-      font-weight: 700;
-      padding-right: 110px !important;
+      font-weight: 800;
+      padding-right: 130px !important;
     }
 
     .pin-actions {
       position: absolute;
       right: 6px;
       display: flex;
-      gap: 4px;
+      gap: 6px;
     }
 
     .action-icon-btn {
       background: rgba(37, 99, 235, 0.1);
       color: var(--primary-color);
-      border: 1px solid rgba(37, 99, 235, 0.3);
-      border-radius: 6px;
-      padding: 6px 8px;
+      border: 1px solid rgba(37, 99, 235, 0.25);
+      border-radius: 8px;
+      padding: 8px 10px;
       cursor: pointer;
-      font-size: 11px;
-      font-weight: 600;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .action-icon-btn:active {
+      background: rgba(37, 99, 235, 0.2);
     }
 
     /* Smart Package Cards (Grid View) */
     .package-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 18px;
     }
 
     .package-card {
-      border: 1.5px solid var(--border-color);
-      border-radius: 8px;
-      padding: 8px;
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      padding: 12px 8px;
       cursor: pointer;
       text-align: center;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
     }
 
     .package-card.selected {
       border-color: var(--bkash-color);
-      background: rgba(226, 19, 110, 0.05);
+      background: rgba(226, 19, 110, 0.06);
     }
 
     .pkg-title {
-      font-size: 12px;
-      font-weight: bold;
+      font-size: 14px;
+      font-weight: 700;
       color: var(--text-main);
+      margin-bottom: 2px;
     }
 
     .pkg-price {
-      font-size: 14px;
+      font-size: 17px;
       font-weight: 800;
       color: var(--bkash-color);
     }
@@ -282,17 +272,21 @@
     /* Buttons */
     .btn {
       width: 100%;
-      height: 46px;
+      height: 52px;
       border: none;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 700;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 800;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      transition: background 0.2s;
+      gap: 8px;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
     }
 
     .btn-green { background: var(--success-color); color: #fff; }
@@ -302,28 +296,29 @@
 
     /* Support Floating Bar */
     .support-bar {
-      margin-top: 14px;
+      margin-top: 18px;
       display: flex;
       justify-content: center;
-      gap: 12px;
+      gap: 16px;
     }
 
     .support-item {
       display: flex;
       align-items: center;
-      gap: 4px;
-      font-size: 12px;
+      gap: 6px;
+      font-size: 13px;
       color: var(--text-muted);
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .footer {
-      margin-top: 14px;
-      font-size: 10px;
+      margin-top: 18px;
+      font-size: 11px;
+      font-weight: 500;
       color: var(--text-muted);
       border-top: 1px dashed var(--border-color);
-      padding-top: 10px;
+      padding-top: 14px;
     }
   </style>
 </head>
@@ -334,12 +329,6 @@
       <span class="status-dot"></span> হাই-স্পিড নেটওয়ার্ক অ্যাক্টিভ
     </div>
     
-    <!-- Image Slider Banner -->
-    <div class="slider-container">
-      <img class="slide active" src="https://via.placeholder.com/380x110/2563eb/ffffff?text=Special+WiFi+Package+Offer" alt="Offer 1">
-      <img class="slide" src="https://via.placeholder.com/380x110/16a34a/ffffff?text=Scan+%26+Connect+Instantly" alt="Offer 2">
-    </div>
-
     <h2 class="header-title">Smart WiFi Zone</h2>
     <p class="subtitle">ইন্টারনেট কানেক্ট করতে পিন বা পেমেন্ট বেছে নিন</p>
 
@@ -377,9 +366,9 @@
         </div>
 
         <!-- Smart QR Scanner Box -->
-        <div id="qr-reader-wrapper" style="display:none; margin-bottom:12px;">
-          <div id="reader"></div>
-          <button type="button" class="action-icon-btn" style="width:100%; margin-top:6px;" onclick="stopScanner()">বন্ধ করুন</button>
+        <div id="qr-reader-wrapper" style="display:none; margin-bottom:14px;">
+          <div id="reader" style="border-radius:10px; overflow:hidden;"></div>
+          <button type="button" class="action-icon-btn" style="width:100%; margin-top:8px; padding:10px;" onclick="stopScanner()">ক্যামেরা বন্ধ করুন</button>
         </div>
 
         <button type="submit" class="btn btn-green" id="submitBtn">ইন্টারনেট চালু করুন</button>
@@ -402,23 +391,25 @@
         </div>
 
         <!-- Package Grid Cards -->
-        <label>প্যাকেজ নির্বাচন করুন:</label>
-        <div class="package-grid">
-          <div class="package-card" onclick="selectPackage('pkg_10tk_1hr', this)">
-            <div class="pkg-title">১ ঘণ্টা</div>
-            <div class="pkg-price">৳ ১০</div>
-          </div>
-          <div class="package-card" onclick="selectPackage('pkg_20tk_3hr', this)">
-            <div class="pkg-title">৩ ঘণ্টা</div>
-            <div class="pkg-price">৳ ২০</div>
-          </div>
-          <div class="package-card" onclick="selectPackage('pkg_50tk_3day', this)">
-            <div class="pkg-title">৩ দিন</div>
-            <div class="pkg-price">৳ ৫০</div>
-          </div>
-          <div class="package-card selected" onclick="selectPackage('pkg_200tk_1m', this)">
-            <div class="pkg-title">১ মাস ⭐</div>
-            <div class="pkg-price">৳ ২০০</div>
+        <div class="form-group">
+          <label>প্যাকেজ নির্বাচন করুন:</label>
+          <div class="package-grid">
+            <div class="package-card" onclick="selectPackage('pkg_10tk_1hr', this)">
+              <div class="pkg-title">১ ঘণ্টা</div>
+              <div class="pkg-price">৳ ১০</div>
+            </div>
+            <div class="package-card" onclick="selectPackage('pkg_20tk_3hr', this)">
+              <div class="pkg-title">৩ ঘণ্টা</div>
+              <div class="pkg-price">৳ ২০</div>
+            </div>
+            <div class="package-card" onclick="selectPackage('pkg_50tk_3day', this)">
+              <div class="pkg-title">৩ দিন</div>
+              <div class="pkg-price">৳ ৫০</div>
+            </div>
+            <div class="package-card selected" onclick="selectPackage('pkg_200tk_1m', this)">
+              <div class="pkg-title">১ মাস ⭐</div>
+              <div class="pkg-price">৳ ২০০</div>
+            </div>
           </div>
         </div>
 
@@ -440,15 +431,6 @@
   <script>
     const FIREBASE_USER_SAVE_URL = "https://us-central1-YOUR_PROJECT_ID.cloudfunctions.net/saveUserData";
     let html5QrcodeScanner = null;
-
-    /* Image Slider Logic */
-    let slideIndex = 0;
-    const slides = document.querySelectorAll('.slide');
-    setInterval(() => {
-      slides[slideIndex].classList.remove('active');
-      slideIndex = (slideIndex + 1) % slides.length;
-      slides[slideIndex].classList.add('active');
-    }, 3500);
 
     /* Toggle PIN Visibility */
     function togglePinVisibility() {
@@ -545,5 +527,4 @@
     }
   </script>
 </body>
-        </html>
-          
+</html>
