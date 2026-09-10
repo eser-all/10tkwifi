@@ -3,141 +3,100 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WiFi Zone - Internet Packages</title>
+  <title>WiFi Zone - Login & Cyber Security Logging</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    body {
-      background: #f0f2f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 15px;
-    }
-    .card {
-      background: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 420px;
-      padding: 25px;
-      text-align: center;
-    }
-    .header-title {
-      color: #1a202c;
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 5px;
-    }
-    .subtitle {
-      color: #718096;
-      font-size: 13px;
-      margin-bottom: 20px;
-    }
-    .notice-box {
-      background: #ebf8ff;
-      border-left: 4px solid #3182ce;
-      color: #2b6cb0;
-      font-size: 12px;
-      padding: 10px;
-      border-radius: 4px;
-      margin-bottom: 20px;
-      text-align: left;
-    }
-    .form-group {
-      text-align: left;
-      margin-bottom: 20px;
-    }
-    label {
-      display: block;
-      font-weight: 600;
-      color: #4a5568;
-      font-size: 14px;
-      margin-bottom: 8px;
-    }
-    select {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #cbd5e0;
-      border-radius: 8px;
-      font-size: 15px;
-      color: #2d3748;
-      outline: none;
-      background: #fff;
-    }
-    select:focus {
-      border-color: #e2136e;
-    }
-    .bkash-btn {
-      width: 100%;
-      background: #e2136e;
-      color: #ffffff;
-      border: none;
-      padding: 14px;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      transition: background 0.2s ease;
-    }
-    .bkash-btn:hover {
-      background: #c20d5d;
-    }
-    .footer {
-      margin-top: 20px;
-      color: #a0aec0;
-      font-size: 11px;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+    body { background: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 15px; }
+    .card { background: #ffffff; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); width: 100%; max-width: 400px; padding: 25px; text-align: center; }
+    .header-title { color: #1a202c; font-size: 22px; font-weight: 700; margin-bottom: 5px; }
+    .subtitle { color: #718096; font-size: 13px; margin-bottom: 20px; }
+    
+    .form-group { text-align: left; margin-bottom: 15px; }
+    label { display: block; font-weight: 600; color: #4a5568; font-size: 13px; margin-bottom: 6px; }
+    input[type="text"], input[type="tel"] { width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 6px; font-size: 15px; outline: none; }
+    .pin-input { text-align: center; font-size: 18px !important; letter-spacing: 2px; font-weight: bold; }
+    
+    .btn-green { width: 100%; background: #28a745; color: #fff; border: none; padding: 12px; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; }
+    .footer { margin-top: 15px; font-size: 11px; color: #a0aec0; }
+    .error-msg { color: #e53e3e; font-size: 12px; margin-bottom: 10px; }
   </style>
 </head>
 <body>
 
   <div class="card">
-    <h2 class="header-title">WiFi Internet Zone</h2>
-    <p class="subtitle">সহজেই প্যাকেজ কিনে ইন্টারনেট ব্যবহার করুন</p>
+    <h2 class="header-title">WiFi Zone Login</h2>
+    <p class="subtitle">সাইবার নিরাপত্তার জন্য মোবাইল নম্বর দেওয়া বাধ্যতামূলক</p>
 
-    <div class="notice-box">
-      ⚡ <strong>বিশেষ দ্রষ্টব্য:</strong> প্রতিটি প্যাকেজ কেবল <strong>১টি ডিভাইসে</strong> ব্যবহারের জন্য প্রযোজ্য।
-    </div>
+    $(if error)
+      <div class="error-msg">$(error)</div>
+    $(endif)
 
-    <!-- Payment Form -->
-    <form action="https://your-firebase-api.cloudfunctions.net/bkashPay" method="POST">
-      
-      <!-- MikroTik Variable Fields (অটোমেটিক ডায়নামিক ডেটা ক্যাপচার) -->
-      <input type="hidden" name="mac" value="$(mac)">
-      <input type="hidden" name="ip" value="$(ip)">
-      <input type="hidden" name="link_login_only" value="$(link-login-only)">
+    <form name="login" id="loginForm" action="$(link-login-only)" method="post" onsubmit="return handleUserLogin(event)">
+      <!-- MikroTik Hidden Variables -->
+      <input type="hidden" name="dst" value="$(link-orig)" />
+      <input type="hidden" name="popup" value="true" />
+      <input type="hidden" id="username" name="username" />
+      <input type="hidden" id="password" name="password" />
 
+      <!-- User Mobile Number Input -->
       <div class="form-group">
-        <label for="package_id">আপনার পছন্দমতো প্যাকেজ বেছে নিন:</label>
-        <select name="package_id" id="package_id" required>
-          <option value="pkg_10tk_1hr">১০ টাকা — ১ ঘণ্টা</option>
-          <option value="pkg_20tk_3hr">২০ টাকা — ৩ ঘণ্টা</option>
-          <option value="pkg_50tk_3day">৫০ টাকা — ৩ দিন</option>
-          <option value="pkg_100tk_1wk">১০০ টাকা — ১ সপ্তাহ</option>
-          <option value="pkg_130tk_2wk">১৩০ টাকা — ২ সপ্তাহ</option>
-          <option value="pkg_200tk_1m">২০০ টাকা — ১ মাস</option>
-        </select>
+        <label for="user_phone">আপনার মোবাইল নম্বর:</label>
+        <input type="tel" id="user_phone" placeholder="017xxxxxxxx" required pattern="[0-9]{11}">
       </div>
 
-      <button type="submit" class="bkash-btn">
-        bKash দিয়ে পেমেন্ট করুন
-      </button>
+      <!-- Voucher Pin Input -->
+      <div class="form-group">
+        <label for="pin_code">স্ক্র্যাচ কার্ডের পিন (PIN):</label>
+        <input type="text" id="pin_code" class="pin-input" placeholder="e.g. 849204" required autocomplete="off">
+      </div>
+
+      <button type="submit" class="btn-green" id="submitBtn">ইন্টারনেট চালু করুন</button>
     </form>
 
     <div class="footer">
-      Device MAC: $(mac) | Protected by MikroTik Hotspot
+      Device MAC: $(mac) | Protected Network
     </div>
   </div>
+
+  <script>
+    // Firebase Cloud Function Endpoint (এখানে আপনার ফায়ারবেস লিংকটি বসাবেন)
+    const FIREBASE_USER_SAVE_URL = "https://us-central1-YOUR_PROJECT_ID.cloudfunctions.net/saveUserData";
+
+    async function handleUserLogin(event) {
+      event.preventDefault(); // ফরম ডিফল্ট সাবমিট থামানো
+
+      const phone = document.getElementById('user_phone').value.trim();
+      const pin = document.getElementById('pin_code').value.trim();
+      const mac = "$(mac)";
+      const submitBtn = document.getElementById('submitBtn');
+
+      if (!phone || !pin) {
+        alert("মোবাইল নম্বর এবং পিন কোড সঠিকভাবে দিন!");
+        return false;
+      }
+
+      submitBtn.innerText = "যাচাই করা হচ্ছে...";
+      submitBtn.disabled = true;
+
+      try {
+        // ১. ফায়ারবেসে Phone Number + MAC সেভ করা
+        await fetch(FIREBASE_USER_SAVE_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mac: mac, phone: phone })
+        });
+      } catch (error) {
+        console.log("Firebase sync warning:", error);
+      }
+
+      // ২. MikroTik Login Input সেট করা
+      document.getElementById('username').value = pin;
+      document.getElementById('password').value = pin;
+
+      // ৩. MikroTik-এ ফরম সাবমিট করা
+      document.getElementById('loginForm').submit();
+    }
+  </script>
 
 </body>
 </html>
