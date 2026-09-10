@@ -2,208 +2,277 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Smart WiFi Zone</title>
   <!-- HTML5 QR Code Scanner Library -->
   <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
   <style>
+    :root {
+      --primary-color: #2563eb;
+      --primary-hover: #1d4ed8;
+      --success-color: #16a34a;
+      --success-hover: #15803d;
+      --bkash-color: #e2136e;
+      --bkash-hover: #c20f5d;
+      --bg-color: #f1f5f9;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #cbd5e1;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
+
     body {
-      background: #f0f2f5;
+      background-color: var(--bg-color);
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      padding: 15px;
+      padding: 12px;
     }
+
     .card {
-      background: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
       width: 100%;
-      max-width: 400px;
-      padding: 25px;
+      max-width: 380px;
+      padding: 24px 20px;
       text-align: center;
     }
-    .header-title {
-      color: #1a202c;
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 5px;
+
+    .logo-icon {
+      width: 48px;
+      height: 48px;
+      background: #eff6ff;
+      color: var(--primary-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      font-size: 24px;
     }
+
+    .header-title {
+      color: var(--text-main);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      margin-bottom: 4px;
+    }
+
     .subtitle {
-      color: #718096;
+      color: var(--text-muted);
       font-size: 13px;
       margin-bottom: 20px;
     }
+
     /* Tab Navigation */
     .tab-container {
       display: flex;
-      background: #edf2f7;
-      border-radius: 8px;
-      padding: 4px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 3px;
       margin-bottom: 20px;
     }
+
     .tab-btn {
       flex: 1;
-      padding: 10px;
+      padding: 10px 6px;
       border: none;
       background: transparent;
       font-weight: 600;
-      color: #4a5568;
+      color: var(--text-muted);
       cursor: pointer;
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 13px;
       transition: all 0.2s ease;
     }
+
     .tab-btn.active {
-      background: #ffffff;
-      color: #2b6cb0;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      background: var(--card-bg);
+      color: var(--primary-color);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
+
     .tab-content {
       display: none;
     }
+
     .tab-content.active {
       display: block;
     }
+
     /* Form Elements */
     .form-group {
       text-align: left;
-      margin-bottom: 15px;
+      margin-bottom: 16px;
     }
+
     label {
       display: block;
       font-weight: 600;
-      color: #4a5568;
+      color: var(--text-main);
       font-size: 13px;
       margin-bottom: 6px;
     }
-    input[type="text"], input[type="tel"], select {
+
+    input[type="text"], 
+    input[type="tel"], 
+    select {
       width: 100%;
-      padding: 12px;
-      border: 1px solid #cbd5e0;
-      border-radius: 6px;
+      height: 46px;
+      padding: 0 14px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 10px;
       font-size: 15px;
       outline: none;
-      transition: border-color 0.2s;
+      background: #fff;
+      color: var(--text-main);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      -webkit-appearance: none;
     }
-    input[type="text"]:focus, input[type="tel"]:focus, select:focus {
-      border-color: #28a745;
+
+    input[type="text"]:focus, 
+    input[type="tel"]:focus, 
+    select:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
     }
+
     .pin-input-group {
       position: relative;
     }
+
     .pin-input {
       text-align: center;
       font-size: 18px !important;
-      letter-spacing: 3px;
-      font-weight: bold;
-      padding-right: 45px !important;
+      letter-spacing: 2px;
+      font-weight: 700;
+      padding-right: 90px !important;
     }
+
     .scan-btn-icon {
       position: absolute;
-      right: 8px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: #3182ce;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 6px 10px;
+      right: 6px;
+      top: 6px;
+      bottom: 6px;
+      background: #eff6ff;
+      color: var(--primary-color);
+      border: 1px solid #bfdbfe;
+      border-radius: 7px;
+      padding: 0 10px;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 12px;
+      font-weight: 600;
       display: flex;
       align-items: center;
       gap: 4px;
     }
-    .scan-btn-icon:hover {
-      background: #2b6cb0;
+
+    .scan-btn-icon:active {
+      background: #dbeafe;
     }
-    /* QR Scanner Modal Box */
+
+    /* QR Scanner Wrapper */
     #qr-reader-wrapper {
       display: none;
       background: #f8fafc;
-      border: 2px dashed #cbd5e0;
-      border-radius: 8px;
-      padding: 10px;
-      margin-bottom: 15px;
-      position: relative;
+      border: 2px dashed var(--border-color);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 16px;
     }
+
     #reader {
       width: 100%;
-      border-radius: 6px;
+      border-radius: 8px;
       overflow: hidden;
     }
+
     .close-scanner-btn {
-      background: #e53e3e;
+      width: 100%;
+      background: #ef4444;
       color: white;
       border: none;
-      padding: 6px 12px;
-      border-radius: 4px;
+      padding: 8px;
+      border-radius: 6px;
       font-size: 12px;
-      font-weight: bold;
+      font-weight: 600;
       cursor: pointer;
-      margin-top: 8px;
+      margin-top: 10px;
     }
+
     /* Buttons */
+    .btn {
+      width: 100%;
+      height: 48px;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
     .btn-green {
-      width: 100%;
-      background: #28a745;
+      background: var(--success-color);
       color: #ffffff;
-      border: none;
-      padding: 12px;
-      border-radius: 6px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.2s;
     }
+
     .btn-green:hover {
-      background: #218838;
+      background: var(--success-hover);
     }
+
     .btn-bkash {
-      width: 100%;
-      background: #e2136e;
+      background: var(--bkash-color);
       color: #ffffff;
-      border: none;
-      padding: 12px;
-      border-radius: 6px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.2s;
     }
+
     .btn-bkash:hover {
-      background: #c20f5d;
+      background: var(--bkash-hover);
     }
+
     .footer {
       margin-top: 20px;
       font-size: 11px;
-      color: #a0aec0;
+      color: var(--text-muted);
       border-top: 1px dashed #e2e8f0;
-      padding-top: 12px;
+      padding-top: 14px;
     }
   </style>
 </head>
 <body>
 
   <div class="card">
+    <div class="logo-icon">📶</div>
     <h2 class="header-title">Smart WiFi Zone</h2>
-    <p class="subtitle">লগইন করতে পেমেন্ট মেথড বা পিন কোড ব্যবহার করুন</p>
+    <p class="subtitle">ইন্টারনেট কানেক্ট করতে পিন বা পেমেন্ট অপশনটি বেছে নিন</p>
 
-    <!-- Tab Buttons -->
+    <!-- Tab Navigation -->
     <div class="tab-container">
       <button type="button" class="tab-btn active" onclick="switchTab('voucher')">🎟️ ১০ ডিজিটের পিন</button>
       <button type="button" class="tab-btn" onclick="switchTab('online')">💳 বিকাশ / অনলাইন</button>
     </div>
 
-    <!-- TAB 1: 10-DIGIT VOUCHER PIN LOGIN -->
+    <!-- TAB 1: VOUCHER LOGIN -->
     <div id="voucher-tab" class="tab-content active">
       <form name="login" id="loginForm" action="$(link-login-only)" method="post" onsubmit="return handleVoucherLogin(event)">
         <input type="hidden" name="dst" value="$(link-orig)" />
@@ -213,28 +282,28 @@
 
         <div class="form-group">
           <label for="user_phone">মোবাইল নম্বর:</label>
-          <input type="tel" id="user_phone" placeholder="017xxxxxxxx" maxlength="11" pattern="[0-9]{11}" required autocomplete="off">
+          <input type="tel" id="user_phone" placeholder="017XXXXXXXX" maxlength="11" pattern="[0-9]{11}" required autocomplete="off">
         </div>
 
         <div class="form-group">
           <label for="pin_code">১০ ডিজিটের পিন (PIN) কোড:</label>
           <div class="pin-input-group">
             <input type="text" id="pin_code" class="pin-input" placeholder="9847201834" maxlength="10" pattern="[0-9]{10}" required autocomplete="off">
-            <button type="button" class="scan-btn-icon" onclick="startScanner()" title="QR Scan">📷 স্ক্যান</button>
+            <button type="button" class="scan-btn-icon" onclick="startScanner()">📷 স্ক্যান</button>
           </div>
         </div>
 
-        <!-- Camera Scanner Area -->
+        <!-- Camera Scanner Element -->
         <div id="qr-reader-wrapper">
           <div id="reader"></div>
           <button type="button" class="close-scanner-btn" onclick="stopScanner()">ক্যামেরা বন্ধ করুন</button>
         </div>
 
-        <button type="submit" class="btn-green" id="submitBtn">ইন্টারনেট চালু করুন</button>
+        <button type="submit" class="btn btn-green" id="submitBtn">ইন্টারনেট চালু করুন</button>
       </form>
     </div>
 
-    <!-- TAB 2: ONLINE PAYMENT GATEWAY -->
+    <!-- TAB 2: ONLINE PAYMENT -->
     <div id="online-tab" class="tab-content">
       <form action="https://us-central1-YOUR_PROJECT_ID.cloudfunctions.net/initiatePayment" method="POST">
         <input type="hidden" name="mac" value="$(mac)">
@@ -242,7 +311,7 @@
 
         <div class="form-group">
           <label for="online_phone">মোবাইল নম্বর:</label>
-          <input type="tel" name="phone" id="online_phone" placeholder="017xxxxxxxx" maxlength="11" pattern="[0-9]{11}" required autocomplete="off">
+          <input type="tel" name="phone" id="online_phone" placeholder="017XXXXXXXX" maxlength="11" pattern="[0-9]{11}" required autocomplete="off">
         </div>
 
         <div class="form-group">
@@ -251,17 +320,17 @@
             <option value="pkg_10tk_1hr">১০ টাকা — ১ ঘণ্টা</option>
             <option value="pkg_20tk_3hr">২০ টাকা — ৩ ঘণ্টা</option>
             <option value="pkg_50tk_3day">৫০ টাকা — ৩ দিন</option>
-            <option value="pkg_100tk_1wk">১ ১০০ টাকা — ১ সপ্তাহ</option>
+            <option value="pkg_100tk_1wk">১০০ টাকা — ১ সপ্তাহ</option>
             <option value="pkg_200tk_1m" selected>২০০ টাকা — ১ মাস</option>
           </select>
         </div>
 
-        <button type="submit" class="btn-bkash">bKash দিয়ে পেমেন্ট করুন</button>
+        <button type="submit" class="btn btn-bkash">bKash দিয়ে পেমেন্ট করুন</button>
       </form>
     </div>
 
     <div class="footer">
-      Smart WiFi Zone | MAC: $(mac)
+      Device MAC: $(mac) | Powered by Smart WiFi
     </div>
   </div>
 
@@ -293,12 +362,11 @@
       if (!html5QrcodeScanner) {
         html5QrcodeScanner = new Html5QrcodeScanner("reader", { 
           fps: 10, 
-          qrbox: { width: 220, height: 220 },
+          qrbox: { width: 200, height: 200 },
           aspectRatio: 1.0
         });
 
         html5QrcodeScanner.render((decodedText) => {
-          // Extract numbers only if QR contains text or full URL
           const extractedPin = decodedText.replace(/\D/g, '').slice(0, 10);
           if (extractedPin.length === 10) {
             document.getElementById('pin_code').value = extractedPin;
@@ -307,7 +375,7 @@
             alert("QR কোডে ১০ ডিজিটের পিন পাওয়া যায়নি!");
           }
         }, (errorMessage) => {
-          // Scanning in progress...
+          // Scanning...
         });
       }
     }
