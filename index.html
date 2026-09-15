@@ -6,12 +6,13 @@
     <title>১০ টাকার ওয়াইফাই - ইন্টারনেট পেমেন্ট পোর্টাল</title>
     <style>
         :root {
-            --primary: #0284c7;
-            --success: #16a34a;
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text: #1e293b;
-            --border-radius: 16px;
+            --primary: #38bdf8;
+            --success: #22c55e;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
         }
 
         body {
@@ -19,47 +20,68 @@
             background-color: var(--bg);
             color: var(--text);
             margin: 0;
-            padding: 15px;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
             box-sizing: border-box;
+            overflow: hidden;
         }
 
         .container {
             max-width: 420px;
             width: 100%;
+            height: 100%;
+            max-height: 100vh;
             background: var(--card-bg);
             padding: 24px;
-            border-radius: var(--border-radius);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            border-radius: 0;
+            box-shadow: none;
             text-align: center;
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow-y: auto;
+        }
+
+        @media (min-width: 480px) {
+            .container {
+                height: auto;
+                max-height: 90vh;
+                border-radius: 20px;
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+                border: 1px solid var(--border-color);
+            }
         }
 
         h2 {
             color: var(--primary);
-            margin: 0 0 5px 0;
-            font-size: 1.5rem;
+            margin: 0 0 8px 0;
+            font-size: 1.7rem;
+            font-weight: 800;
         }
 
         p.subtitle {
-            font-size: 0.9rem;
-            color: #64748b;
+            font-size: 0.95rem;
+            color: var(--text-muted);
             margin-bottom: 20px;
+            font-weight: 700;
         }
 
-        /* মোবাইল ফ্রেন্ডলি কিউআর বক্স ও নির্দেশিকা */
+        /* কিউআর বক্স ও নির্দেশিকা - নাইট মোড */
         .qr-box {
-            background: #f0fdf4;
-            border: 2px dashed #86efac;
+            background: #064e3b;
+            border: 2px dashed #059669;
             padding: 16px;
             border-radius: 12px;
             margin-bottom: 20px;
             text-align: left;
-            font-size: 0.88rem;
-            color: #166534;
+            font-size: 0.9rem;
+            color: #a7f3d0;
+            font-weight: 700;
         }
 
         .qr-box ol {
@@ -69,6 +91,7 @@
 
         .qr-box li {
             margin-bottom: 6px;
+            font-weight: 700;
         }
 
         /* বাংলা কিউআর ইমেজ হোল্ডার */
@@ -77,7 +100,7 @@
             width: 130px;
             height: 130px;
             background: #ffffff;
-            border: 1px solid #cbd5e1;
+            border: 1px solid var(--border-color);
             border-radius: 8px;
             display: flex;
             justify-content: center;
@@ -97,28 +120,29 @@
 
         label {
             display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
+            font-size: 0.9rem;
+            font-weight: 800;
             margin-bottom: 6px;
-            color: #475569;
+            color: var(--text);
         }
 
         input[type="text"] {
             width: 100%;
             padding: 14px;
-            border: 2px solid #e2e8f0;
+            border: 2px solid var(--border-color);
             border-radius: 10px;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
+            font-weight: 700;
             box-sizing: border-box;
             outline: none;
             transition: all 0.2s ease;
-            background-color: #f8fafc;
+            background-color: #0f172a;
+            color: #ffffff;
         }
 
         input[type="text"]:focus {
             border-color: var(--primary);
-            background-color: #fff;
-            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
         }
 
         button {
@@ -127,12 +151,12 @@
             color: white;
             border: none;
             padding: 14px;
-            font-size: 1.05rem;
-            font-weight: bold;
+            font-size: 1.1rem;
+            font-weight: 800;
             border-radius: 10px;
             cursor: pointer;
             transition: background-color 0.2s, transform 0.1s;
-            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
         }
 
         button:active {
@@ -140,37 +164,37 @@
         }
 
         button:hover {
-            background-color: #15803d;
+            background-color: #16a34a;
         }
 
         button:disabled {
-            background-color: #94a3b8;
+            background-color: #475569;
             cursor: not-allowed;
             box-shadow: none;
         }
 
         .message {
             margin-top: 15px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            padding: 10px;
+            font-size: 0.95rem;
+            font-weight: 800;
+            padding: 12px;
             border-radius: 8px;
             display: none;
         }
 
         .error { 
-            background-color: #ffeeec;
-            color: #dc2626; 
+            background-color: #7f1d1d;
+            color: #fca5a5; 
             display: block;
         }
 
         .success-msg { 
-            background-color: #f0fdf4;
-            color: #16a34a; 
+            background-color: #064e3b;
+            color: #6ee7b7; 
             display: block;
         }
 
-        /* স্পিন বা লডার ইফেক্ট */
+        /* স্পিনার বা লডার অ্যানিমেশন */
         .spinner {
             display: inline-block;
             width: 16px;
@@ -194,16 +218,15 @@
     <h2>১০ টাকার ওয়াইফাই</h2>
     <p class="subtitle">১ ঘণ্টার জন্য ফুল-স্পিড ইন্টারনেট আনলক করুন</p>
 
-    <!-- বিকাশ/নগদ ও বাংলা কিউআর নির্দেশিকা -->
+    <!-- পেমেন্ট করার নির্দেশিকা -->
     <div class="qr-box">
         <strong>পেমেন্ট করার নিয়ম:</strong>
         <ol>
-            <li>বিকাশ বা নগদ অ্যাপ থেকে <strong>বাংলা কিউআর (Bangla QR)</strong> স্ক্যান করুন অথবা সেন্ড মানি করুন।</li>
-            <li>পরিমাণ দিন: <strong>১০ টাকা</strong></li>
+            <li>বিকাশ/নগদ অ্যাপ দিয়ে দোকানে থাকা বাংলা কিউআর কোডে ১০ টাকা পেমেন্ট করুন।</li>
             <li>পেমেন্ট সফল হওয়ার পর প্রাপ্ত <strong>TrxID</strong> নিচে লিখে সাবমিট করুন।</li>
         </ol>
         
-        <!-- বাংলা কিউআর কোডের ছবি রাখার জায়গা (আপনার কিউআর ইমেজ এখানে বসবে) -->
+        <!-- বাংলা কিউআর কোডের ছবি রাখার জায়গা -->
         <div class="qr-image-container">
             <img src="bangla-qr.png" alt="Bangla QR Code">
         </div>
@@ -261,7 +284,7 @@
                 msgBox.className = "message success-msg";
                 msgBox.innerText = result.message || "পেমেন্ট সফল! ইন্টারনেট চালু হয়েছে।";
                 
-                // সফল হওয়ার ২.৫ সেকেন্ড পর মাইক্রোটিকের বাইপাস সাকসেস পেজে রিডাইরেক্ট করবে
+                // সফল হওয়ার ২ সেকেন্ড পর মাইক্রোটিকের বাইপাস সাকসেস পেজে রিডাইরেক্ট করবে
                 setTimeout(() => {
                     window.location.href = "http://www.msftconnecttest.com/redirect"; 
                 }, 2000);
